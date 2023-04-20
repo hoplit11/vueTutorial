@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vue Mastery</title>
+    <!-- Import Styles -->
+    <link rel="stylesheet" href="./assets/styles.css" />
+    <!-- Import Vue.js -->
+    <script src="https://unpkg.com/vue@3.0.11/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div class="nav-bar"></div>
+      <div class="cart">Cart({{ cart }})</div>
+      <div class="product-display">
+        <div class="product-container">
+          <div class="product-image">
+            <!-- image goes here usign the "v-bind" or simply ":" directive or using the v-show directive-->
+            <img :class="{ 'out-of-stock-img': !inStock }" v-bind:src="image">
+
+            <p>{{ description }}</p>
+            <a :href="attribute">attribute</a>
+
+          </div>
+           <!-- product info goes here usign the "v-if" and"v-else" directive -->
+          <div class="product-info">
+            <h1>{{ title }}</h1>
+            <p v-if="inStock">In Stock</p>
+            <!--<p v-if="inventory > 10">In Stock</p>-->
+            <!--<p v-else-if="inventory <=10 && inventory > 0">Almost sold out!</p>  -->  
+            <p v-else>Out of Stock</p>
+            
+            <p v-if="onSale" >{{OnSaleTitle}}</p>
+
+            <ul>
+                <li v-for="detail in details"> {{detail}}</li>
+            </ul>
+            <div 
+              v-for="(variant, index) in variants" 
+              :key="variant.id" 
+              @mouseover="updateVariant(index)"
+              class="color-circle"
+              :style="{ backgroundColor: variant.color }"
+              >{{ variant.color}}
+
+            </div>
+            <ul>
+                <li v-for="size in sizes"> {{size}}</li>
+            </ul>
+            <button 
+              class="button"
+              :class="{ disabledButton: !inStock}" 
+              :disabled="!inStock"
+              v-on:click="addToCart"
+              >Add to Cart
+            </button> <!-- v-on:click="addToCart" or @click="addToCart"is a event listener that trigger the property cart when "click" is done to the button via a method.    other (v-on:click="cart +=1" is a event listener that trigger the property cart when "click" is done to the button )-->      
+            <button class="button" @click="delToCart">Delete to Cart</button> <!-- v-on:click="addToCart" or @click="addToCart"is a event listener that trigger the property cart when "click" is done to the button via a method.    other (v-on:click="cart +=1" is a event listener that trigger the property cart when "click" is done to the button )-->   
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Import App -->
+    <script src="./main.js"></script>
+
+    <!-- Mount App -->
+    <script>
+      const mountedApp = app.mount('#app')
+    </script>
+  </body>
+</html>
